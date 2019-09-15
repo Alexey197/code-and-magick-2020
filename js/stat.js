@@ -45,10 +45,32 @@ window.renderStatistics = function (ctx, players, times) {
   renderCloud(ctx, cloudParams.X + cloudParams.GAP, cloudParams.Y + cloudParams.GAP, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, cloudParams.X, cloudParams.Y, '#fff');
 
-  ctx.fillStyle = '#000';
+  var wrapText = function (ctx, text, marginLeft, marginTop, maxWidth, lineHeight) {
+    var words = text.split(' ');
+    var countWords = words.length;
+    var line = '';
+    for (var n = 0; n < countWords; n++) {
+      var testLine = line + words[n] + ' ';
+      var testWidth = ctx.measureText(testLine).width;
+      if (testWidth > maxWidth) {
+        ctx.fillText(line, marginLeft, marginTop);
+        line = words[n] + ' ';
+        marginTop += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line, marginLeft, marginTop);
+  };
+  var maxWidth = 200;
+  var lineHeight = 20;
+  var marginLeft = titleParams.X + cloudParams.X;
+  var marginTop = titleParams.Y + cloudParams.Y;
+  var text = 'Ура вы победили! Список результатов:';
   ctx.font = '16px PT Mono';
-  ctx.fillText('Ура вы победили!', cloudParams.X + titleParams.X, cloudParams.Y + titleParams.Y);
-  ctx.fillText('Список результатов:', cloudParams.X + titleParams.X, cloudParams.Y + titleParams.Y + textParams.HEIGHT);
+  ctx.fillStyle = '#000';
+
+  wrapText(ctx, text, marginLeft, marginTop, maxWidth, lineHeight);
 
   var maxTime = getMaxElement(times);
 
