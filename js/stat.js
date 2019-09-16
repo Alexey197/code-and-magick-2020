@@ -24,6 +24,30 @@ var barParams = {
   GAP: 50
 };
 
+var MAX_WIDTH = 200;
+var LINE_HEIGHT = 20;
+var MARGIN_LEFT = titleParams.X + cloudParams.X;
+var MARGIN_TOP = titleParams.Y + cloudParams.Y;
+var TEXT = 'Ура вы победили! Список результатов:';
+
+var wrapText = function (ctx, text, marginLeft, marginTop, maxWidth, lineHeight) {
+  var words = text.split(' ');
+  var countWords = words.length;
+  var line = '';
+  for (var n = 0; n < countWords; n++) {
+    var testLine = line + words[n] + ' ';
+    var testWidth = ctx.measureText(testLine).width;
+    if (testWidth > maxWidth) {
+      ctx.fillText(line, marginLeft, marginTop);
+      line = words[n] + ' ';
+      marginTop += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line, marginLeft, marginTop);
+};
+
 var renderColorHsl = function (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -45,32 +69,10 @@ window.renderStatistics = function (ctx, players, times) {
   renderCloud(ctx, cloudParams.X + cloudParams.GAP, cloudParams.Y + cloudParams.GAP, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, cloudParams.X, cloudParams.Y, '#fff');
 
-  var wrapText = function (ctx, text, marginLeft, marginTop, maxWidth, lineHeight) {
-    var words = text.split(' ');
-    var countWords = words.length;
-    var line = '';
-    for (var n = 0; n < countWords; n++) {
-      var testLine = line + words[n] + ' ';
-      var testWidth = ctx.measureText(testLine).width;
-      if (testWidth > maxWidth) {
-        ctx.fillText(line, marginLeft, marginTop);
-        line = words[n] + ' ';
-        marginTop += lineHeight;
-      } else {
-        line = testLine;
-      }
-    }
-    ctx.fillText(line, marginLeft, marginTop);
-  };
-  var maxWidth = 200;
-  var lineHeight = 20;
-  var marginLeft = titleParams.X + cloudParams.X;
-  var marginTop = titleParams.Y + cloudParams.Y;
-  var text = 'Ура вы победили! Список результатов:';
   ctx.font = '16px PT Mono';
   ctx.fillStyle = '#000';
 
-  wrapText(ctx, text, marginLeft, marginTop, maxWidth, lineHeight);
+  wrapText(ctx, TEXT, MARGIN_LEFT, MARGIN_TOP, MAX_WIDTH, LINE_HEIGHT);
 
   var maxTime = getMaxElement(times);
 
