@@ -21,7 +21,7 @@ var wizards = [];
 var createObjects = function (Object) {
   for (var i = 0; i < 3; i++) {
     Object[i] = {};
-    Object[i].name = renderAppearance(WIZARDS_NAME) + renderAppearance(WIZARD_SURNAME);
+    Object[i].name = renderAppearance(WIZARDS_NAME) + ' ' + renderAppearance(WIZARD_SURNAME);
     Object[i].coatColor = renderAppearance(COAT_COLORS);
     Object[i].eyesColor = renderAppearance(EYES_COLOR);
     Object.push(Object[i]);
