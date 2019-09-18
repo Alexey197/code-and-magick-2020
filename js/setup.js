@@ -2,34 +2,33 @@
 
 var userDialog = document.querySelector('.setup');
 userDialog.classList.remove('hidden');
+userDialog.querySelector('.setup-similar').classList.remove('hidden');
 
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 var fragment = document.createDocumentFragment();
-var WIZARDS_NAME = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-var WIZARD_SURNAME = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-var EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
+var wizards = [];
+var wizardParams = {
+  NAME: ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'],
+  SURNAME: ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'],
+  COAT: ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'],
+  EYES: ['black', 'red', 'blue', 'yellow', 'green']
+};
 
 var renderAppearance = function (arr) {
   var rand = Math.floor(Math.random() * arr.length);
   return arr[rand];
 };
 
-var wizards = [];
-
-var createObjects = function (Object) {
-  for (var i = 0; i < 3; i++) {
-    Object[i] = {};
-    Object[i].name = renderAppearance(WIZARDS_NAME) + ' ' + renderAppearance(WIZARD_SURNAME);
-    Object[i].coatColor = renderAppearance(COAT_COLORS);
-    Object[i].eyesColor = renderAppearance(EYES_COLOR);
-    Object.push(Object[i]);
+var createObjects = function (creature) {
+  for (var i = 0; i < 4; i++) {
+    creature[i] = {};
+    creature[i].name = renderAppearance(wizardParams.NAME) + ' ' + renderAppearance(wizardParams.SURNAME);
+    creature[i].coatColor = renderAppearance(wizardParams.COAT);
+    creature[i].eyesColor = renderAppearance(wizardParams.EYES);
   }
-  return wizards;
+  return creature;
 };
-
-createObjects(wizards);
 
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
@@ -39,8 +38,12 @@ var renderWizard = function (wizard) {
   return wizardElement;
 };
 
-for (var i = 0; i < wizards.length; i++) {
-  fragment.appendChild(renderWizard(wizards[i]));
-}
-similarListElement.appendChild(fragment);
-userDialog.querySelector('.setup-similar').classList.remove('hidden');
+var createFragment = function (wizard) {
+  for (var i = 0; i < wizards.length; i++) {
+    fragment.appendChild(renderWizard(wizard[i]));
+  }
+  similarListElement.appendChild(fragment);
+};
+
+createObjects(wizards);
+createFragment(wizards);
