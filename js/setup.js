@@ -6,8 +6,7 @@ userDialog.querySelector('.setup-similar').classList.remove('hidden');
 
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-var fragment = document.createDocumentFragment();
-var wizards = [];
+var wizardsQuantity = 4;
 var wizardParams = {
   NAME: ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'],
   SURNAME: ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'],
@@ -15,35 +14,57 @@ var wizardParams = {
   EYES: ['black', 'red', 'blue', 'yellow', 'green']
 };
 
-var renderAppearance = function (arr) {
-  var rand = Math.floor(Math.random() * arr.length);
-  return arr[rand];
+// Случайный элемент массива
+
+var getRanArrElement = function (arr) {
+  var arrElement = Math.floor(Math.random() * arr.length);
+  return arr[arrElement];
 };
 
-var createObjects = function (creature) {
-  for (var i = 0; i < 4; i++) {
-    creature[i] = {};
-    creature[i].name = renderAppearance(wizardParams.NAME) + ' ' + renderAppearance(wizardParams.SURNAME);
-    creature[i].coatColor = renderAppearance(wizardParams.COAT);
-    creature[i].eyesColor = renderAppearance(wizardParams.EYES);
+// Создание существа
+
+var getCreature = function () {
+  return {
+    name: getRanArrElement(wizardParams.NAME) + ' ' + getRanArrElement(wizardParams.SURNAME),
+    coatColor: getRanArrElement(wizardParams.COAT),
+    eyesColor: getRanArrElement(wizardParams.EYES)
+  };
+};
+
+// Создание массива существ
+
+var getCreatures = function (arrLength) {
+  var creatures = [];
+  for (var i = 0; i < arrLength; i++) {
+    creatures.push(getCreature());
   }
-  return creature;
+  return creatures;
 };
 
-var renderWizard = function (wizard) {
+// Клонирование 1-го элемента волшебника
+
+var getWizard = function (creatures) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
-  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-  wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+  wizardElement.querySelector('.setup-similar-label').textContent = creatures.name;
+  wizardElement.querySelector('.wizard-coat').style.fill = creatures.coatColor;
+  wizardElement.querySelector('.wizard-eyes').style.fill = creatures.eyesColor;
   return wizardElement;
 };
 
-var createFragment = function (wizard) {
-  for (var i = 0; i < wizards.length; i++) {
-    fragment.appendChild(renderWizard(wizard[i]));
+// Армия клонов())
+
+var getWizards = function (creatures) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < creatures.length; i++) {
+    fragment.appendChild(getWizard(creatures[i]));
   }
-  similarListElement.appendChild(fragment);
+  return fragment;
 };
 
-createObjects(wizards);
-createFragment(wizards);
+// Инициализация
+
+var getInit = function () {
+  similarListElement.appendChild(getWizards(getCreatures(wizardsQuantity)));
+};
+
+getInit();
