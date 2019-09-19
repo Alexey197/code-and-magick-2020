@@ -3,7 +3,7 @@
 var userDialog = document.querySelector('.setup');
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-var wizardsQuantity = 4;
+var WIZARDS_QUANTITY = 4;
 var wizardParams = {
   NAME: ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'],
   SURNAME: ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'],
@@ -60,11 +60,11 @@ var getWizards = function (creatures) {
 
 // Инициализация
 
-var getInit = function () {
-  similarListElement.appendChild(getWizards(getCreatures(wizardsQuantity)));
+var initApp = function () {
+  similarListElement.appendChild(getWizards(getCreatures(WIZARDS_QUANTITY)));
 
   userDialog.classList.remove('hidden');
   userDialog.querySelector('.setup-similar').classList.remove('hidden');
 };
 
-getInit();
+initApp();
