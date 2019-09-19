@@ -13,7 +13,7 @@ var wizardParams = {
 
 // Случайный элемент массива
 
-var getRanArrElement = function (arr) {
+var getRandomArrElement = function (arr) {
   var arrElement = Math.floor(Math.random() * arr.length);
   return arr[arrElement];
 };
@@ -22,9 +22,9 @@ var getRanArrElement = function (arr) {
 
 var getCreature = function () {
   return {
-    name: getRanArrElement(wizardParams.NAME) + ' ' + getRanArrElement(wizardParams.SURNAME),
-    coatColor: getRanArrElement(wizardParams.COAT),
-    eyesColor: getRanArrElement(wizardParams.EYES)
+    name: getRandomArrElement(wizardParams.NAME) + ' ' + getRandomArrElement(wizardParams.SURNAME),
+    coatColor: getRandomArrElement(wizardParams.COAT),
+    eyesColor: getRandomArrElement(wizardParams.EYES)
   };
 };
 
