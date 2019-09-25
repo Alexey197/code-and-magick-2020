@@ -3,13 +3,32 @@
 var userDialog = document.querySelector('.setup');
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+
+var setup = document.querySelector('.setup');
+var setupForm = setup.querySelector('.setup-wizard-form');
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = setup.querySelector('.setup-close');
+var setupSubmit = setup.querySelector('.setup-submit');
+var openIcon = document.querySelector('.setup-open-icon');
+var userNameInput = setup.querySelector('.setup-user-name');
+var wizardCoat = setup.querySelector('.setup-wizard .wizard-coat');
+var wizardCoatColorInput = setup.querySelector('.setup input[name="coat-color"]');
+var wizardEyes = setup.querySelector('.setup-wizard .wizard-eyes');
+var wizardEyesColorInput = setup.querySelector('.setup input[name="eyes-color"]');
+var wizardFireball = setup.querySelector('.setup-fireball-wrap');
+var wizardFireballColorInput = setup.querySelector('.setup input[name="fireball-color"]');
+
 var WIZARDS_QUANTITY = 4;
 var wizardParams = {
   NAME: ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'],
   SURNAME: ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'],
   COAT: ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'],
-  EYES: ['black', 'red', 'blue', 'yellow', 'green']
+  EYES: ['black', 'red', 'blue', 'yellow', 'green'],
+  FIREBALL: ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848']
 };
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 // Случайный элемент массива
 
@@ -68,3 +87,91 @@ var initApp = function () {
 };
 
 initApp();
+
+// Открытие/закрытие окна настройки персонажа, отправка формы
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+var openPopup = function () {
+  setup.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  setup.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+openIcon.setAttribute('tabindex', '0');
+setupClose.setAttribute('tabindex', '0');
+
+setupOpen.addEventListener('click', function () {
+  openPopup();
+});
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openPopup();
+  }
+});
+
+setupClose.addEventListener('click', function () {
+  closePopup();
+});
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+});
+
+setupSubmit.addEventListener('click', function () {
+  setupForm.submit();
+});
+
+setupSubmit.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    setupForm.submit();
+  }
+});
+
+// Валидация формы
+userNameInput.setAttribute('minlength', '2');
+
+userNameInput.addEventListener('invalid', function () {
+  if (userNameInput.validity.tooShort) {
+    userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+  } else if (userNameInput.validity.tooLong) {
+    userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
+  } else if (userNameInput.validity.valueMissing) {
+    userNameInput.setCustomValidity('Обязательное поле');
+  } else {
+    userNameInput.setCustomValidity('');
+  }
+});
+
+// Изменения внешности по нажатию
+
+wizardCoat.addEventListener('click', function () {
+  wizardCoat.style.fill = getRandomArrElement(wizardParams.COAT);
+  wizardCoatColorInput.value = getRandomArrElement(wizardParams.COAT);
+});
+
+wizardEyes.addEventListener('click', function () {
+  wizardEyes.style.fill = getRandomArrElement(wizardParams.EYES);
+  wizardEyesColorInput.value = getRandomArrElement(wizardParams.EYES);
+});
+
+wizardFireball.addEventListener('click', function () {
+  wizardFireball.style.backgroundColor = getRandomArrElement(wizardParams.FIREBALL);
+  wizardFireballColorInput.value = getRandomArrElement(wizardParams.FIREBALL);
+});
+
+// отправка формы
+
+setupForm.setAttribute('action', 'https://js.dump.academy/code-and-magick');
+
