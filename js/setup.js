@@ -156,20 +156,29 @@ userNameInput.addEventListener('invalid', function () {
 
 // Изменения внешности по нажатию
 
-wizardCoat.addEventListener('click', function () {
-  wizardCoat.style.fill = getRandomArrElement(wizardParams.COAT);
-  wizardCoatColorInput.value = getRandomArrElement(wizardParams.COAT);
-});
+var onCoatClickHandler = function () {
+  var wizardCoatColor = getRandomArrElement(wizardParams.COAT);
+  wizardCoat.style.fill = wizardCoatColor;
+  wizardCoatColorInput.value = wizardCoatColor;
+};
 
-wizardEyes.addEventListener('click', function () {
-  wizardEyes.style.fill = getRandomArrElement(wizardParams.EYES);
-  wizardEyesColorInput.value = getRandomArrElement(wizardParams.EYES);
-});
+var onEyesClickHandler = function () {
+  var wizardEyesColor = getRandomArrElement(wizardParams.EYES);
+  wizardEyes.style.fill = wizardEyesColor;
+  wizardEyesColorInput.value = wizardEyesColor;
+};
 
-wizardFireball.addEventListener('click', function () {
-  wizardFireball.style.backgroundColor = getRandomArrElement(wizardParams.FIREBALL);
-  wizardFireballColorInput.value = getRandomArrElement(wizardParams.FIREBALL);
-});
+var onFireballClickHandler = function () {
+  var wizardFireballColor = getRandomArrElement(wizardParams.FIREBALL);
+  wizardFireball.style.backgroundColor = wizardFireballColor;
+  wizardFireballColorInput.value = wizardFireballColor;
+};
+
+wizardCoat.addEventListener('click', onCoatClickHandler);
+
+wizardEyes.addEventListener('click', onEyesClickHandler);
+
+wizardFireball.addEventListener('click', onFireballClickHandler);
 
 // отправка формы
 
