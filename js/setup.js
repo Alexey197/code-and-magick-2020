@@ -27,8 +27,10 @@ var wizardParams = {
   FIREBALL: ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848']
 };
 
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
+var KEYCODE = {
+  ESC: 27,
+  ENTER: 13
+};
 
 // Случайный элемент массива
 
@@ -91,7 +93,7 @@ initApp();
 // Открытие/закрытие окна настройки персонажа, отправка формы
 
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === KEYCODE.ESC) {
     closePopup();
   }
 };
@@ -109,12 +111,10 @@ var closePopup = function () {
 openIcon.setAttribute('tabindex', '0');
 setupClose.setAttribute('tabindex', '0');
 
-setupOpen.addEventListener('click', function () {
-  openPopup();
-});
+setupOpen.addEventListener('click', openPopup);
 
 setupOpen.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
+  if (evt.keyCode === KEYCODE.ENTER) {
     openPopup();
   }
 });
@@ -124,17 +124,13 @@ setupClose.addEventListener('click', function () {
 });
 
 setupClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
+  if (evt.keyCode === KEYCODE.ENTER) {
     closePopup();
   }
 });
 
-setupSubmit.addEventListener('click', function () {
-  setupForm.submit();
-});
-
 setupSubmit.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
+  if (evt.keyCode === KEYCODE.ENTER) {
     setupForm.submit();
   }
 });
