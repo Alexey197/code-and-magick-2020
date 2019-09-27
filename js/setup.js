@@ -84,7 +84,6 @@ var getWizards = function (creatures) {
 var initApp = function () {
   similarListElement.appendChild(getWizards(getCreatures(WIZARDS_QUANTITY)));
 
-  userDialog.classList.remove('hidden');
   userDialog.querySelector('.setup-similar').classList.remove('hidden');
 };
 
@@ -92,20 +91,26 @@ initApp();
 
 // Открытие/закрытие окна настройки персонажа, отправка формы
 
-var onPopupEscPress = function (evt) {
-  if (evt.keyCode === KEYCODE.ESC) {
-    closePopup();
-  }
-};
-
 var openPopup = function () {
   setup.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
+  wizardCoat.addEventListener('click', onCoatClickHandler);
+  wizardEyes.addEventListener('click', onEyesClickHandler);
+  wizardFireball.addEventListener('click', onFireballClickHandler);
 };
 
 var closePopup = function () {
   setup.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
+  wizardCoat.removeEventListener('click', onCoatClickHandler);
+  wizardEyes.removeEventListener('click', onEyesClickHandler);
+  wizardFireball.removeEventListener('click', onFireballClickHandler);
+};
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === KEYCODE.ESC) {
+    closePopup();
+  }
 };
 
 openIcon.setAttribute('tabindex', '0');
@@ -169,12 +174,6 @@ var onFireballClickHandler = function () {
   wizardFireball.style.backgroundColor = wizardFireballColor;
   wizardFireballColorInput.value = wizardFireballColor;
 };
-
-wizardCoat.addEventListener('click', onCoatClickHandler);
-
-wizardEyes.addEventListener('click', onEyesClickHandler);
-
-wizardFireball.addEventListener('click', onFireballClickHandler);
 
 // отправка формы
 
