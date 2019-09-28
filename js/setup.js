@@ -78,71 +78,48 @@ var getWizards = function (creatures) {
   return fragment;
 };
 
-// Инициализация
+var openPopup = function () {
+  setup.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+  wizardCoat.addEventListener('click', onCoatClickHandler);
+  wizardEyes.addEventListener('click', onEyesClickHandler);
+  wizardFireball.addEventListener('click', onFireballClickHandler);
+  setupClose.addEventListener('click', function () {
+    closePopup();
+  });
 
-var initApp = function () {
-  similarListElement.appendChild(getWizards(getCreatures(WIZARDS_QUANTITY)));
-
-  userDialog.querySelector('.setup-similar').classList.remove('hidden');
-
-  openIcon.setAttribute('tabindex', '0');
-  setupClose.setAttribute('tabindex', '0');
-  userNameInput.setAttribute('minlength', '2');
-  setupForm.setAttribute('action', 'https://js.dump.academy/code-and-magick');
-
-  var openPopup = function () {
-    setup.classList.remove('hidden');
-    document.addEventListener('keydown', onPopupEscPress);
-    wizardCoat.addEventListener('click', onCoatClickHandler);
-    wizardEyes.addEventListener('click', onEyesClickHandler);
-    wizardFireball.addEventListener('click', onFireballClickHandler);
-    setupClose.addEventListener('click', function () {
-      closePopup();
-    });
-
-    setupClose.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === KEYCODE.ENTER) {
-        closePopup();
-      }
-    });
-
-    userNameInput.addEventListener('invalid', function () {
-      if (userNameInput.validity.tooShort) {
-        userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
-      } else if (userNameInput.validity.tooLong) {
-        userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
-      } else if (userNameInput.validity.valueMissing) {
-        userNameInput.setCustomValidity('Обязательное поле');
-      } else {
-        userNameInput.setCustomValidity('');
-      }
-    });
-  };
-
-  var closePopup = function () {
-    setup.classList.add('hidden');
-    document.removeEventListener('keydown', onPopupEscPress);
-    wizardCoat.removeEventListener('click', onCoatClickHandler);
-    wizardEyes.removeEventListener('click', onEyesClickHandler);
-    wizardFireball.removeEventListener('click', onFireballClickHandler);
-  };
-
-  var onPopupEscPress = function (evt) {
-    if (evt.keyCode === KEYCODE.ESC) {
+  setupClose.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === KEYCODE.ENTER) {
       closePopup();
     }
-  };
+  });
 
-  setupOpen.addEventListener('click', openPopup);
-
-  setupOpen.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === KEYCODE.ENTER) {
-      openPopup();
+  userNameInput.addEventListener('invalid', function () {
+    if (userNameInput.validity.tooShort) {
+      userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+    } else if (userNameInput.validity.tooLong) {
+      userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
+    } else if (userNameInput.validity.valueMissing) {
+      userNameInput.setCustomValidity('Обязательное поле');
+    } else {
+      userNameInput.setCustomValidity('');
     }
   });
 };
 
-initApp();
+var closePopup = function () {
+  setup.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+  wizardCoat.removeEventListener('click', onCoatClickHandler);
+  wizardEyes.removeEventListener('click', onEyesClickHandler);
+  wizardFireball.removeEventListener('click', onFireballClickHandler);
+};
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === KEYCODE.ESC) {
+    closePopup();
+  }
+};
 
 // Изменения внешности по нажатию
 
@@ -163,5 +140,29 @@ var onFireballClickHandler = function () {
   wizardFireball.style.backgroundColor = wizardFireballColor;
   wizardFireballColorInput.value = wizardFireballColor;
 };
+
+// Инициализация
+
+var initApp = function () {
+  similarListElement.appendChild(getWizards(getCreatures(WIZARDS_QUANTITY)));
+
+  userDialog.querySelector('.setup-similar').classList.remove('hidden');
+
+  openIcon.setAttribute('tabindex', '0');
+  setupClose.setAttribute('tabindex', '0');
+  userNameInput.setAttribute('minlength', '2');
+  setupForm.setAttribute('action', 'https://js.dump.academy/code-and-magick');
+
+  setupOpen.addEventListener('click', openPopup);
+
+  setupOpen.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === KEYCODE.ENTER) {
+      openPopup();
+    }
+  });
+};
+
+initApp();
+
 
 
