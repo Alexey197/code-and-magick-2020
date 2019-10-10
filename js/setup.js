@@ -8,6 +8,7 @@ var setup = document.querySelector('.setup');
 var setupForm = setup.querySelector('.setup-wizard-form');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = setup.querySelector('.setup-close');
+var dialogHandler = setup.querySelector('.upload');
 var openIcon = document.querySelector('.setup-open-icon');
 var userNameInput = setup.querySelector('.setup-user-name');
 var wizardCoat = setup.querySelector('.setup-wizard .wizard-coat');
@@ -26,9 +27,9 @@ var wizardParams = {
   FIREBALL: ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848']
 };
 
-var KEYCODE = {
-  ESC: 27,
-  ENTER: 13
+var KeyCode = {
+  Esc: 27,
+  Enter: 13
 };
 
 // Случайный элемент массива
@@ -89,7 +90,7 @@ var openPopup = function () {
   });
 
   setupClose.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === KEYCODE.ENTER) {
+    if (evt.keyCode === KeyCode.Enter) {
       closePopup();
     }
   });
@@ -116,7 +117,7 @@ var closePopup = function () {
 };
 
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === KEYCODE.ESC) {
+  if (evt.keyCode === KeyCode.Esc) {
     closePopup();
   }
 };
@@ -141,6 +142,55 @@ var onFireballClickHandler = function () {
   wizardFireballColorInput.value = wizardFireballColor;
 };
 
+// Перемещение диалогового окна
+
+dialogHandler.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var dragged = false;
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    dragged = true;
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    setup.style.top = (setup.offsetTop - shift.y) + 'px';
+    setup.style.left = (setup.offsetLeft - shift.x) + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+
+    if (dragged) {
+      var onClickPreventDefault = function (dragEvt) {
+        dragEvt.preventDefault();
+        dialogHandler.removeEventListener('click', onClickPreventDefault);
+      };
+      dialogHandler.addEventListener('click', onClickPreventDefault);
+    }
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
 // Инициализация
 
 var initApp = function () {
@@ -156,7 +206,7 @@ var initApp = function () {
   setupOpen.addEventListener('click', openPopup);
 
   setupOpen.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === KEYCODE.ENTER) {
+    if (evt.keyCode === KeyCode.Enter) {
       openPopup();
     }
   });
