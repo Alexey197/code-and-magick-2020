@@ -8,17 +8,40 @@
   var openIcon = document.querySelector('.setup-open-icon');
   var userNameInput = setup.querySelector('.setup-user-name');
 
-  var openPopup = function () {
+  var setupStartPosition = {
+    X: '50%',
+    Y: '80px'
+  };
+
+  var setupReset = function () {
+    setup.style.top = setupStartPosition.Y;
+    setup.style.left = setupStartPosition.X;
+  };
+
+  var getPopupVisible = function () {
     setup.classList.remove('hidden');
+  };
+
+  var onPopupEscPress = function (evt) {
+    window.util.isEscEvent(evt, closePopup);
+    setupReset();
+  };
+
+  var openPopup = function () {
     document.addEventListener('keydown', onPopupEscPress);
+    setupOpen.addEventListener('click', getPopupVisible);
+    setupOpen.addEventListener('keydown', function (evt) {
+      window.util.isEnterEvent(evt, getPopupVisible);
+    });
+
     setupClose.addEventListener('click', function () {
+      setupReset();
       closePopup();
     });
 
     setupClose.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.util.KeyCode.Enter) {
-        closePopup();
-      }
+      window.util.isEnterEvent(evt, closePopup);
+      setupReset();
     });
 
     userNameInput.addEventListener('invalid', function () {
@@ -36,11 +59,7 @@
 
   var closePopup = function () {
     setup.classList.add('hidden');
-    document.removeEventListener('keydown', onPopupEscPress);
-  };
-
-  var onPopupEscPress = function (evt) {
-    window.util.KeyCode.isEscEvent(evt, closePopup);
+    document.addEventListener('keydown', onPopupEscPress);
   };
 
   // Перемещение диалогового окна
@@ -92,21 +111,18 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  var initApp = function () {
+  var showPopup = function () {
     openIcon.setAttribute('tabindex', '0');
     setupClose.setAttribute('tabindex', '0');
     userNameInput.setAttribute('minlength', '2');
     setupForm.setAttribute('action', 'https://js.dump.academy/code-and-magick');
-
     setupOpen.addEventListener('click', openPopup);
-
     setupOpen.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.util.KeyCode.Enter) {
-        openPopup();
-      }
+      window.util.isEnterEvent(evt, openPopup);
     });
   };
 
-  initApp();
+  showPopup();
+
 })();
 

@@ -20,14 +20,13 @@
     FIREBALL: ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848']
   };
 
-
   // Создание существа
 
   var getCreature = function () {
     return {
-      name: window.getRandomArrElement(wizardParams.NAME) + ' ' + window.getRandomArrElement(wizardParams.SURNAME),
-      coatColor: window.getRandomArrElement(wizardParams.COAT),
-      eyesColor: window.getRandomArrElement(wizardParams.EYES)
+      name: window.util.getRandomArrElement(wizardParams.NAME) + ' ' + window.getRandomArrElement(wizardParams.SURNAME),
+      coatColor: window.util.getRandomArrElement(wizardParams.COAT),
+      eyesColor: window.util.getRandomArrElement(wizardParams.EYES)
     };
   };
 

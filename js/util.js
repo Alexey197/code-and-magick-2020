@@ -1,24 +1,24 @@
 'use strict';
 
 (function () {
+  var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
+
   window.util = {
-    KeyCode: {
-      Esc: 27,
-      Enter: 13,
-      isEscEvent: function (evt, action) {
-        if (evt.keyCode === window.util.KeyCode.Esc) {
-          action();
-        }
-      },
-      isEnterEvent: function (evt, action) {
-        if (evt.KeyCode === window.util.KeyCode.Enter) {
-          action();
-        }
+    isEscEvent: function (evt, action) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        action();
       }
     },
-    setupStartPosition: {
-      X: '50%',
-      Y: '80px'
+    isEnterEvent: function (evt, action) {
+      if (evt.keyCode === ENTER_KEYCODE) {
+        action();
+      }
+    },
+    getRandomArrElement: function (arr) {
+      var arrElement = Math.floor(Math.random() * arr.length);
+      return arr[arrElement];
     }
   };
 })();
+
