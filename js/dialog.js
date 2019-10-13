@@ -145,6 +145,10 @@
     userNameInput.setAttribute('minlength', '2');
     setupForm.setAttribute('action', 'https://js.dump.academy/code-and-magick');
 
+    window.colorize.addColorStyle(wizardCoat, window.data.COAT);
+    window.colorize.addColorStyle(wizardEyes, window.data.EYES);
+    window.colorize.addColorStyle(wizardFireball, window.data.FIREBALL);
+
     setupOpen.addEventListener('click', openPopup);
     setupOpen.addEventListener('keydown', onPopupEnterPressOpen);
   };
