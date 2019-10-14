@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var WIZARDS_QUANTITY = 4;
+
   var similarListElement = document.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
@@ -28,7 +30,7 @@
   // Инициализация
 
   var initApp = function () {
-    similarListElement.appendChild(getWizards(window.data.getCreatures(window.data.WIZARDS_QUANTITY)));
+    similarListElement.appendChild(getWizards(window.data.getCreatures(WIZARDS_QUANTITY)));
     document.querySelector('.setup-similar').classList.remove('hidden');
   };
 

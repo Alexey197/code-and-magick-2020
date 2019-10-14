@@ -24,12 +24,28 @@
     setup.style.left = setupStartPosition.X;
   };
 
-  var getPopupVisible = function () {
-    setup.classList.remove('hidden');
+  var onWizardColorAddHandler = function (element, arr) {
+    element.addEventListener('click', function () {
+      if (element.tagName.toLowerCase() === 'div') {
+        element.style.backgroundColor = window.util.getRandomArrElement(arr);
+      } else {
+        element.style.fill = window.util.getRandomArrElement(arr);
+      }
+    });
   };
 
-  var getPopupInvisible = function () {
-    setup.classList.add('hidden');
+  var onWizardColorRemoveHandler = function (element, arr) {
+    element.removeEventListener('click', function () {
+      if (element.tagName.toLowerCase() === 'div') {
+        element.style.backgroundColor = window.util.getRandomArrElement(arr);
+      } else {
+        element.style.fill = window.util.getRandomArrElement(arr);
+      }
+    });
+  };
+
+  var getPopupInvisible = function (isInvisible) {
+    setup.classList.toggle('hidden', isInvisible);
   };
 
   var onPopupEscPress = function (evt) {
@@ -46,7 +62,7 @@
   };
 
   var openPopup = function () {
-    getPopupVisible();
+    getPopupInvisible(false);
     document.addEventListener('keydown', onPopupEscPress);
     setupClose.addEventListener('click', function () {
       setupReset();
@@ -57,12 +73,12 @@
       setupReset();
     });
 
+    onWizardColorAddHandler(wizardCoat, window.data.COAT);
+    onWizardColorAddHandler(wizardEyes, window.data.EYES);
+    onWizardColorAddHandler(wizardFireball, window.data.FIREBALL);
+
     setupOpen.removeEventListener('click', openPopup);
     setupOpen.removeEventListener('keydown', onPopupEnterPressOpen);
-
-    window.colorize.addColorStyle(wizardCoat, window.data.COAT);
-    window.colorize.addColorStyle(wizardEyes, window.data.EYES);
-    window.colorize.addColorStyle(wizardFireball, window.data.FIREBALL);
 
     userNameInput.addEventListener('invalid', function () {
       if (userNameInput.validity.tooShort) {
@@ -78,12 +94,17 @@
   };
 
   var closePopup = function () {
-    getPopupInvisible();
+    getPopupInvisible(true);
     document.removeEventListener('keydown', onPopupEscPress);
     setupClose.removeEventListener('click', function () {
       setupReset();
       closePopup();
     });
+
+    onWizardColorRemoveHandler(wizardCoat, window.data.COAT);
+    onWizardColorRemoveHandler(wizardEyes, window.data.EYES);
+    onWizardColorRemoveHandler(wizardFireball, window.data.FIREBALL);
+
     setupClose.removeEventListener('keydown', onPopupEnterPressClose);
 
     setupOpen.addEventListener('click', openPopup);
@@ -144,10 +165,6 @@
     setupClose.setAttribute('tabindex', '0');
     userNameInput.setAttribute('minlength', '2');
     setupForm.setAttribute('action', 'https://js.dump.academy/code-and-magick');
-
-    window.colorize.addColorStyle(wizardCoat, window.data.COAT);
-    window.colorize.addColorStyle(wizardEyes, window.data.EYES);
-    window.colorize.addColorStyle(wizardFireball, window.data.FIREBALL);
 
     setupOpen.addEventListener('click', openPopup);
     setupOpen.addEventListener('keydown', onPopupEnterPressOpen);
