@@ -7,6 +7,12 @@
     Y: '80px'
   };
 
+  var wizardParams = {
+    COAT: ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'],
+    EYES: ['black', 'red', 'blue', 'yellow', 'green'],
+    FIREBALL: ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848']
+  };
+
   var setup = document.querySelector('.setup');
   var setupForm = setup.querySelector('.setup-wizard-form');
   var setupOpen = document.querySelector('.setup-open');
@@ -61,6 +67,18 @@
     window.util.isEnterEvent(evt, closePopup);
   };
 
+  var formSuccessHandler = function () {
+    closePopup();
+  };
+  var formErrorHandler = function (errorMessage) {
+    closePopup();
+    window.message.getError(errorMessage);
+  };
+  var onFormSubmitHandler = function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(setupForm), formSuccessHandler, formErrorHandler);
+  };
+
   var openPopup = function () {
     getPopupInvisible(false);
     document.addEventListener('keydown', onPopupEscPress);
@@ -73,9 +91,9 @@
       setupReset();
     });
 
-    onWizardColorAddHandler(wizardCoat, window.data.COAT);
-    onWizardColorAddHandler(wizardEyes, window.data.EYES);
-    onWizardColorAddHandler(wizardFireball, window.data.FIREBALL);
+    onWizardColorAddHandler(wizardCoat, wizardParams.COAT);
+    onWizardColorAddHandler(wizardEyes, wizardParams.EYES);
+    onWizardColorAddHandler(wizardFireball, wizardParams.FIREBALL);
 
     setupOpen.removeEventListener('click', openPopup);
     setupOpen.removeEventListener('keydown', onPopupEnterPressOpen);
@@ -91,6 +109,8 @@
         userNameInput.setCustomValidity('');
       }
     });
+
+    setupForm.addEventListener('submit', onFormSubmitHandler);
   };
 
   var closePopup = function () {
@@ -101,14 +121,15 @@
       closePopup();
     });
 
-    onWizardColorRemoveHandler(wizardCoat, window.data.COAT);
-    onWizardColorRemoveHandler(wizardEyes, window.data.EYES);
-    onWizardColorRemoveHandler(wizardFireball, window.data.FIREBALL);
+    onWizardColorRemoveHandler(wizardCoat, wizardParams.COAT);
+    onWizardColorRemoveHandler(wizardEyes, wizardParams.EYES);
+    onWizardColorRemoveHandler(wizardFireball, wizardParams.FIREBALL);
 
     setupClose.removeEventListener('keydown', onPopupEnterPressClose);
 
     setupOpen.addEventListener('click', openPopup);
     setupOpen.addEventListener('keydown', onPopupEnterPressOpen);
+    setupForm.removeEventListener('submit', onFormSubmitHandler);
   };
 
   // Перемещение диалогового окна
