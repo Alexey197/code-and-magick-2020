@@ -2,14 +2,14 @@
 
 (function () {
   var WIZARDS_QUANTITY = 4;
-
-  var similarListElement = document.querySelector('.setup-similar-list');
+  var similar = document.querySelector('.setup-similar');
+  var similarList = document.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
 
   // Клонирование 1-го элемента волшебника
 
-  var getWizard = function (creatures) {
+  var renderWizard = function (creatures) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
     wizardElement.querySelector('.setup-similar-label').textContent = creatures.name;
     wizardElement.querySelector('.wizard-coat').style.fill = creatures.colorCoat;
@@ -17,18 +17,13 @@
     return wizardElement;
   };
 
-  var successHandler = function (creatures) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < WIZARDS_QUANTITY; i++) {
-      fragment.appendChild(getWizard(window.util.getRandomArrElement(creatures)));
+  window.render = function (data) {
+    var takeNumber = data.length > WIZARDS_QUANTITY ? WIZARDS_QUANTITY : data.length;
+    similarList.innerHTML = '';
+    for (var i = 0; i < takeNumber; i++) {
+      similarList.appendChild(renderWizard(data[i]));
     }
-    similarListElement.appendChild(fragment);
-  };
 
-  var showWizards = function () {
-    window.backend.load(successHandler, window.message.getError);
-    document.querySelector('.setup-similar').classList.remove('hidden');
+    similar.classList.remove('hidden');
   };
-
-  showWizards();
 })();

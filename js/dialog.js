@@ -7,12 +7,6 @@
     Y: '80px'
   };
 
-  var wizardParams = {
-    COAT: ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'],
-    EYES: ['black', 'red', 'blue', 'yellow', 'green'],
-    FIREBALL: ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848']
-  };
-
   var setup = document.querySelector('.setup');
   var setupForm = setup.querySelector('.setup-wizard-form');
   var setupOpen = document.querySelector('.setup-open');
@@ -21,33 +15,9 @@
   var openIcon = document.querySelector('.setup-open-icon');
   var userNameInput = setup.querySelector('.setup-user-name');
 
-  var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
-  var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
-  var wizardFireball = document.querySelector('.setup-fireball-wrap');
-
   var setupReset = function () {
     setup.style.top = setupStartPosition.Y;
     setup.style.left = setupStartPosition.X;
-  };
-
-  var onWizardColorAddHandler = function (element, arr) {
-    element.addEventListener('click', function () {
-      if (element.tagName.toLowerCase() === 'div') {
-        element.style.backgroundColor = window.util.getRandomArrElement(arr);
-      } else {
-        element.style.fill = window.util.getRandomArrElement(arr);
-      }
-    });
-  };
-
-  var onWizardColorRemoveHandler = function (element, arr) {
-    element.removeEventListener('click', function () {
-      if (element.tagName.toLowerCase() === 'div') {
-        element.style.backgroundColor = window.util.getRandomArrElement(arr);
-      } else {
-        element.style.fill = window.util.getRandomArrElement(arr);
-      }
-    });
   };
 
   var getPopupInvisible = function (isInvisible) {
@@ -91,10 +61,6 @@
       setupReset();
     });
 
-    onWizardColorAddHandler(wizardCoat, wizardParams.COAT);
-    onWizardColorAddHandler(wizardEyes, wizardParams.EYES);
-    onWizardColorAddHandler(wizardFireball, wizardParams.FIREBALL);
-
     setupOpen.removeEventListener('click', openPopup);
     setupOpen.removeEventListener('keydown', onPopupEnterPressOpen);
 
@@ -121,18 +87,12 @@
       closePopup();
     });
 
-    onWizardColorRemoveHandler(wizardCoat, wizardParams.COAT);
-    onWizardColorRemoveHandler(wizardEyes, wizardParams.EYES);
-    onWizardColorRemoveHandler(wizardFireball, wizardParams.FIREBALL);
-
     setupClose.removeEventListener('keydown', onPopupEnterPressClose);
 
     setupOpen.addEventListener('click', openPopup);
     setupOpen.addEventListener('keydown', onPopupEnterPressOpen);
     setupForm.removeEventListener('submit', onFormSubmitHandler);
   };
-
-  // Перемещение диалогового окна
 
   dialogHandler.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
