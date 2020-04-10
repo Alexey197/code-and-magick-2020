@@ -85,3 +85,5 @@ window.renderStatistics = function (ctx, players, times) {
     ctx.fillText(Math.round(times[i]), cloudParams.X + barParams.GAP + (barParams.WIDTH + barParams.GAP) * i, cloudParams.HEIGHT + cloudParams.Y - textParams.GAP - textParams.HEIGHT - (barParams.HEIGHT * times[i]) / maxTime - textParams.GAP);
   }
 };
+
+
