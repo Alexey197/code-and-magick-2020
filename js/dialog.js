@@ -6,6 +6,16 @@
   var setupClose = userDialog.querySelector('.setup-close');
   var inputName = userDialog.querySelector('.setup-user-name');
 
+  var userDialogStartCoords = {
+    X: '50%',
+    Y: '86px'
+  };
+
+  var resetUserDialogCoords = function () {
+    userDialog.style.left = userDialogStartCoords.X;
+    userDialog.style.top = userDialogStartCoords.Y;
+  };
+
   var setupOpenClickHandler = function () {
     openSetupWindow();
   };
@@ -43,6 +53,8 @@
     document.removeEventListener('keydown', setupCloseEscPressHandler);
     setupClose.removeEventListener('click', setupCloseClickHandler);
     setupClose.removeEventListener('keydown', setupCloseEnterPressHandler);
+
+    resetUserDialogCoords();
 
     window.setup.unload();
   };
