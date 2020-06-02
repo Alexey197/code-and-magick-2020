@@ -27,43 +27,55 @@
     VALUE_MISSING: 'Поле обязательное для заполнения'
   };
 
-  var getCreature = function () {
-    return {
-      name: window.util.getRandomArrElement(wizardParams.NAME) + ' ' + window.util.getRandomArrElement(wizardParams.SURNAME),
-      coatColor: window.util.getRandomArrElement(wizardParams.COAT_COLOR),
-      eyesColor: window.util.getRandomArrElement(wizardParams.EYES_COLOR)
-    };
-  };
-
-  var getCreatures = function (amount) {
-    var creatures = [];
-    for (var i = 0; i < amount; i++) {
-      creatures.push(getCreature());
-    }
-    return creatures;
-  };
+  // var getCreature = function () {
+  //   return {
+  //     name: window.util.getRandomArrElement(wizardParams.NAME) + ' ' + window.util.getRandomArrElement(wizardParams.SURNAME),
+  //     coatColor: window.util.getRandomArrElement(wizardParams.COAT_COLOR),
+  //     eyesColor: window.util.getRandomArrElement(wizardParams.EYES_COLOR)
+  //   };
+  // };
+  //
+  // var getCreatures = function (amount) {
+  //   var creatures = [];
+  //   for (var i = 0; i < amount; i++) {
+  //     creatures.push(getCreature());
+  //   }
+  //   return creatures;
+  // };
 
   var getWizard = function (wizard) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
     wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
     return wizardElement;
   };
 
-  var getWizards = function (creatures) {
-    var fragment = document.createDocumentFragment();
-    creatures.forEach(function (item) {
-      fragment.appendChild(getWizard(item));
-    });
-    return fragment;
-  };
+  // var getWizards = function (creatures) {
+  //   var fragment = document.createDocumentFragment();
+  //   creatures.forEach(function (item) {
+  //     fragment.appendChild(getWizard(item));
+  //   });
+  //   return fragment;
+  // };
+  // var wizards = getCreatures(WIZARDS_QUANTITY);
+  // var fragment = document.createDocumentFragment();
+  // for (var i = 0; i < wizards.length; i++) {
+  //   fragment.appendChild(getWizard(wizards[i]));
+  // }
+  // similarListElement.appendChild(fragment);
+  // setup.querySelector('.setup-similar').classList.remove('hidden');
+  // window.backend.load
 
-  var showSetupSimilarList = function () {
-    similarListElement.innerHTML = '';
+  window.backend.load(function (wizards) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < WIZARDS_QUANTITY; i++) {
+      var arrElement = Math.floor(Math.random() * wizards.length);
+      fragment.appendChild(getWizard(wizards.splice(arrElement, 1)[0]));
+    }
+    similarListElement.appendChild(fragment);
     setup.querySelector('.setup-similar').classList.remove('hidden');
-    similarListElement.appendChild(getWizards(getCreatures(WIZARDS_QUANTITY)));
-  };
+  });
 
   var changeCoatColor = function () {
     var coatColor = window.util.getRandomArrElement(wizardParams.COAT_COLOR);
@@ -177,7 +189,7 @@
     inputName.removeEventListener('input', inputInputHandler);
   };
 
-  showSetupSimilarList();
+  // showSetupSimilarList();
 
   window.setup = {
     initialize: initializeSetup,
