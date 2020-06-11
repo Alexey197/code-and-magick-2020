@@ -24,6 +24,8 @@
   //   });
   //   xhr.send();
   // };
+
+
   var URL = 'https://javascript.pages.academy/code-and-magick/data';
 
   var getBackendXhr = function (onLoad) {
@@ -35,6 +37,16 @@
     });
     return xhr;
   };
+
+  // запрос новым методом
+
+  fetch('https://javascript.pages.academy/code-and-magick/data')
+      .then(data => {
+          data.text()
+              .then(value => {
+                  console.log(value);
+              })
+      })
 
   window.backend = {
     load: function (onLoad) {
